@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% block title %}Add Recipe{% endblock %} {% block content %}
+<form method="POST">
+    <h3 align="center">New Recipe</h3>
+    <div class="form-group">
+        <label for="recipeName">Recipe Name</label>
+        <input
+            type="text"
+            class="form-control"
+            id="recipeName"
+            name="recipeName"
+            placeholder="Recipe name"
+        />
+    </div>
+    <br>
+    <div class="wrapper">
+    <div id ="ingredients">
+    <div class="row">
+        <div class="col">
+          <input type="text" class="form-control" id="Ingredient0" name="Ingredient0" placeholder="Ingredient name" aria-label="Ingredient name">
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" id="Amount0" name="Amount0" placeholder="Amount" aria-label="Amount">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" id="Unit0" name="Unit0" placeholder="Unit" aria-label="Unit">
+          </div>
+          <div id=newFields>
+          </div>
+          <div class ="controls">
+            <div id = addMoreFields>
+              <a class = "button" href="#" id="addMoreFields"> <i class="fa fa-plus"></i> Add Ingredient</a>
+            </div>
+            <div id = removeFields>
+            <a class = "button" href="#" id="removeFields"> <i class="fa fa-plus"></i> Remove Ingredient</a>
+            </div>
+          </div>
+      </div>
+      </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Add Recipe</button>
+</div>
+</form>
+<script src="/static/script.js"></script>
+{% endblock %}
