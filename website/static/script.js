@@ -27,7 +27,10 @@ function myDiv() {
     document.getElementById("newFields").insertAdjacentHTML("beforeend", newDiv);
 
     i++;
-    alert(i.toString());
+    //add new i to getI
+    var getI;
+    document.getElementById("getI").value = i.toString();
+    //alert(i.toString());
 }
 
 removeFields.onclick = function() {
@@ -35,7 +38,7 @@ removeFields.onclick = function() {
     if(input_tags.length > 1) {
         newFields.removeChild(input_tags[(input_tags.length) -1]);
         i--;
-        alert(i.toString());
+        //alert(i.toString());
         var getBR = newFields.getElementsByTagName('br');
         if (getBR.length >0) {
             newFields.removeChild(getBR[(getBR.length) -1]);
@@ -46,7 +49,7 @@ removeFields.onclick = function() {
     }
 }
 
-function getI() {
+/*function getI() {
     return i
 }
 
@@ -62,4 +65,4 @@ function passI() {
         }
 
     })
-}
+}*/

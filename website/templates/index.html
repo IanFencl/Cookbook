@@ -1,3 +1,21 @@
 {% extends "base.html" %} {% block title %}Ian's Cookbook{% endblock %}
 
-{% block content %}<H1>This the homepage bruh</H1>{% endblock %}
+{% block content %}<H1>This the homepage bruh</H1>
+<br>
+<H2> Recipies:</H2>
+<br>
+{% for row in rows %}
+<div class="card">
+    <div class="card-body">
+        <a id = 'recipeBase' href = '/recipe_base.html' >
+    <tr>
+        <td>{{ row.recipe_name }}</td>
+        <br>
+    </tr>
+    </a>
+    </div>
+    </div>
+{% endfor %}
+  
+
+{% endblock %}
