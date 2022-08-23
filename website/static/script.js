@@ -45,7 +45,7 @@ removeFields.onclick = function() {
     }
     }
     else {
-        alert("1 ingredient isn't a recipt >:(")
+        alert("1 ingredient isn't a recipe >:(")
     }
 }
 

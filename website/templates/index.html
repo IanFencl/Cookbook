@@ -7,7 +7,7 @@
 {% for row in rows %}
 <div class="card">
     <div class="card-body">
-        <a id = 'recipeBase' href = '/recipe_base.html' >
+        <a id = 'recipeBase' href = {{ url_for("views.recipeBase") }}>
     <tr>
         <td>{{ row.recipe_name }}</td>
         <br>
