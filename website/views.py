@@ -22,25 +22,24 @@ def addRecipe():
 
     if request.method == 'POST':        
         getRecipeName = request.form.get('recipeName')
-        recipeName = recipeMaster(recipe_name = getRecipeName)
-        db.session.add(recipeName)
+        getSteps = request.form.get('Steps')
+        data = recipeMaster(recipe_name = getRecipeName, steps = getSteps)
+        db.session.add(data)
         #db.session.commit()
     
-    getIngredient = 'start'
-    i = 0
-
-    #j = getI
-    #print(j)
-    if (request.method == 'POST'):
+    #getIngredient = 'start'
+        i = 0
+    #if (request.method == 'POST'):
         getI = request.form['getI']
-        print(getI)
+        #print(getI)
+        getID = recipeMaster.query.filter_by(recipe_name = getRecipeName).first()
+        getID = getID.id
         try:
             while i < int(getI): #getIngredient != '' and request.method == 'POST':
                 getIngredient = request.form['Ingredient' + str(i)]
                 getAmount = request.form['Amount' + str(i)]
                 getUnit = request.form['Unit' + str(i)]
-                getID = i + 1
-                data = Ingredients(ingredients = getIngredient, amount = getAmount, unit = getUnit)
+                data = Ingredients(recipe_id = str(getID), ingredients = getIngredient, amount = getAmount, unit = getUnit)
                 db.session.add(data)
                 db.session.commit()
                 print(getIngredient, getAmount, getUnit)
