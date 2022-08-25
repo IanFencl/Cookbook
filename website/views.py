@@ -8,10 +8,10 @@ views = Blueprint('views', __name__)
 @views.route('/')
 def home():
     rows = recipeMaster.query.all()
-    return render_template("index.html", rows=rows)
+    return render_template("index.html", rows=rows, id=id)
 
-@views.route('/recipe_base', methods=['GET', 'POST'])
-def recipeBase():
+@views.route('/recipe_base/<int:id>', methods=['GET', 'POST'])
+def recipeBase(id=None):
     return render_template('recipe_base.html')
 
 @views.route('/add_recipe', methods=['GET', 'POST'])
