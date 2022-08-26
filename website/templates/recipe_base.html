@@ -1,3 +1,30 @@
 {% extends "base.html" %} {% block title %}Recipe{% endblock %}
 
-{% block content %}<H1>This the recipe page bruh</H1>{% endblock %}
+{% block content %}
+
+<H1>This the recipe page bruh</H1>
+
+<h2> {{ names.recipe_name }}</h2>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Amount</th>
+        <th scope="col">Unit</th>
+        <th scope="col">Ingredient</th>
+      </tr>
+    </thead>
+    <tbody>
+{% for ing in ings %}
+        <tr>
+            <td>{{ ing.amount }}</td>
+            <td>{{ ing.unit }}</td>
+            <td>{{ ing.ingredients }}</td>
+        </tr>
+{% endfor %}
+</tbody>
+</table>
+<h2>Steps:</h2>
+<p> {{ names.steps }}</p>
+
+{% endblock %}

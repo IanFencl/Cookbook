@@ -12,7 +12,16 @@ def home():
 
 @views.route('/recipe_base/<int:id>', methods=['GET', 'POST'])
 def recipeBase(id=None):
-    return render_template('recipe_base.html')
+    getID = request.path
+    pages = re.search(r'(?<=/recipe_base/)\w+', getID)
+    page = pages.group(0)
+    print(page)
+    names = recipeMaster.query.filter_by(id = page).first()
+    print(names)
+    #recipeMaster.query.all()
+    #name = names(page)
+    ings = Ingredients.query.filter_by(recipe_id = page).all()
+    return render_template('recipe_base.html', ings=ings, names=names)
 
 @views.route('/add_recipe', methods=['GET', 'POST'])
 def addRecipe():
