@@ -11,3 +11,13 @@
     line-height: 25px;
 }
 body {background-color:#7d7e7fd0;}
+
+.navbar-brand {
+    position: relative;
+    left: 15px;
+    width: 75px;
+  }
+  
+  .navbar-brand > img {
+    width: 100%;
+  }

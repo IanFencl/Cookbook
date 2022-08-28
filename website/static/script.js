@@ -5,7 +5,6 @@ var newFields = document.getElementById('newFields');
 //export {getI}
 addMoreFields.onclick = function() {
     document.getElementById("addMoreFields").addEventListener("click", myDiv());
-    
 }
 
 var i = 1;

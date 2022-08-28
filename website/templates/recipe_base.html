@@ -2,29 +2,32 @@
 
 {% block content %}
 
-<H1>This the recipe page bruh</H1>
-
 <h2> {{ names.recipe_name }}</h2>
-
-<table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Amount</th>
-        <th scope="col">Unit</th>
-        <th scope="col">Ingredient</th>
-      </tr>
-    </thead>
-    <tbody>
+<br>
+<h4> Ingredients:</h4>
 {% for ing in ings %}
-        <tr>
-            <td>{{ ing.amount }}</td>
-            <td>{{ ing.unit }}</td>
-            <td>{{ ing.ingredients }}</td>
-        </tr>
+    {{ ing.amount + " " + ing.unit + " " + ing.ingredients }}
+    <br>
 {% endfor %}
-</tbody>
-</table>
-<h2>Steps:</h2>
+<br>
+<h4>Steps:</h4>
 <p> {{ names.steps }}</p>
+<br>
+<p>
+{% for note in notes %}
+  {{ note.note }}
+  <br>
+{% endfor %}
+</p>
+<br>
+
+<div id="noteField">
+  <form method="POST">
+  <textarea class="form-control" id=customNote name="customNote" rows="3" placeholder="Enter custom notes..."></textarea>
+  <br>
+  <button type="submit" class="btn btn-primary" id="addNote" href="#">Add Note</button>
+  </form>
+
+</div>
 
 {% endblock %}

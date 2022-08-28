@@ -18,9 +18,12 @@ def create_app():
 
     app.register_blueprint(views, url_prefix='/')
 
-    from .models import recipeMaster, Ingredients
+    from .models import recipeMaster, Ingredients, login
 
     create_database(app)
+
+    login.init_app(app)
+    login.login_view = 'views.login'
 
     return app
 
