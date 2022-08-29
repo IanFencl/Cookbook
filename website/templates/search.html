@@ -1,0 +1,11 @@
+{% extends "base.html" %} {% block title %} Search {% endblock %} 
+
+{% block content %}
+
+<h2> Search Page</h2>
+
+{% for result in results %}
+<a href={{ url_for("views.recipeBase", id=result.id) }}> {{ result.recipe_name }}</a>
+{% endfor %}
+
+{% endblock %}

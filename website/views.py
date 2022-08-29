@@ -11,6 +11,19 @@ def home():
     rows = recipeMaster.query.all()
     return render_template("index.html", rows=rows, id=id)
 
+@views.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        form = request.form
+        print(form)
+        search_value = form['search_string']
+        print(search_value)
+        search = '%{0}%'.format(search_value)
+        print(search)
+        results = recipeMaster.query.filter(recipeMaster.recipe_name.like(search)).all()
+        return render_template('search.html', results=results)
+        
+
 @views.route('/login', methods = ['POST', 'GET'])
 def login():
     if current_user.is_authenticated:
