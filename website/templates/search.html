@@ -1,11 +1,19 @@
-{% extends "base.html" %} {% block title %} Search {% endblock %} 
+{% extends "base.html" %} {% block title %} Search Recipies {% endblock %} 
 
 {% block content %}
 
 <h2> Search Page</h2>
 
 {% for result in results %}
-<a href={{ url_for("views.recipeBase", id=result.id) }}> {{ result.recipe_name }}</a>
+<div class="card">
+    <div class="card-body">
+        <a id="search" href={{ url_for("views.recipeBase", id=result.id) }}>
+            <tr>
+            <td>{{ result.recipe_name }}</td>
+            </tr>
+        </a>
+    </div>
+</div>
 {% endfor %}
 
 {% endblock %}
