@@ -20,10 +20,16 @@ class Ingredients(db.Model):
     ingredients = db.Column(db.String(50))
     amount = db.Column(db.String)
     unit = db.Column(db.String(20))
+
+class Tags(db.Model):
+    tag_id = db.Column(db.Integer, primary_key=True)
+    recipe_id = db.Column(db.Integer)
+    tag_name = db.Column(db.String(25))
     
 class Notes(db.Model):
     note_id = db.Column(db.Integer, primary_key=True)
     recipe_id = db.Column(db.Integer)
+    creator_id =db.Column(db.Integer)
     note = db.Column(db.String(1000))
 
 class UserModel(UserMixin, db.Model):

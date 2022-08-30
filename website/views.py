@@ -1,7 +1,7 @@
 from http.client import BAD_REQUEST
 import re
 from flask import Flask, Blueprint, render_template, request, redirect, url_for
-from .models import recipeMaster, Ingredients, db, UserModel, Notes
+from .models import recipeMaster, Ingredients, db, UserModel, Notes, Tags
 from flask_login import current_user, login_required, login_user, logout_user
 
 views = Blueprint('views', __name__)
@@ -21,7 +21,10 @@ def search():
         search = '%{0}%'.format(search_value)
         print(search)
         results = recipeMaster.query.filter(recipeMaster.recipe_name.like(search)).all()
-        return render_template('search.html', results=results)
+        tagResults = Tags.query.filter(Tags.tag_name.like(search)).all()
+        print("tag results " + len(tagResults))
+        #query to set results equal to recipe_id and get that stuff
+        return render_template('search.html', results=results, tagResults = tagResults)
         
 
 @views.route('/login', methods = ['POST', 'GET'])
@@ -63,24 +66,28 @@ def recipeBase(id=None):
     getID = request.path
     pages = re.search(r'(?<=/recipe_base/)\w+', getID)
     page = pages.group(0)
+    
     #print(page)
     names = recipeMaster.query.filter_by(id = page).first()
-    customNotes = Notes.query.filter_by(recipe_id = page).all()
+    
     #notes = customNotes.note
     #print(names)
     #recipeMaster.query.all()
     #name = names(page)
     ings = Ingredients.query.filter_by(recipe_id = page).all()
 
-    if request.method == "POST":
-        getNotes = request.form.get('customNote')
+    if current_user.is_authenticated:
+        userID = current_user.id
+        if request.method == 'POST':
+            getNotes = request.form.get('customNote')
         #print(page, getNotes)
-        data = Notes(recipe_id = page, note = getNotes)
-        db.session.add(data)
-        db.session.commit()
-        
-
-    return render_template('recipe_base.html', ings=ings, names=names, notes = customNotes)
+            data = Notes(recipe_id = page, note = getNotes)
+            db.session.add(data)
+            db.session.commit()
+        customNotes = Notes.query.filter_by(recipe_id = page, creator_id = userID).all()
+        return render_template('recipe_base.html', ings=ings, names=names, notes = customNotes)
+    else:
+        return render_template('recipe_base.html', ings=ings, names=names)
 
 @views.route('/add_recipe', methods=['GET', 'POST'])
 @login_required
@@ -96,6 +103,16 @@ def addRecipe():
         getSteps = request.form.get('Steps')
         data = recipeMaster(recipe_name = getRecipeName, steps = getSteps, created_by = createdBy)
         db.session.add(data)
+        getTags = request.form.get('tags')
+        getTags = getTags.split(',')
+        print(getTags[1])
+        print(len(getTags))
+        i = 0
+        getID = recipeMaster.query.filter_by(recipe_name = getRecipeName).first()
+        getID = getID.id
+        while i < len(getTags):
+            db.session.add(Tags(recipe_id = getID, tag_name = getTags[i]))
+            i+=1
         #db.session.commit()
     
     #getIngredient = 'start'
@@ -103,8 +120,7 @@ def addRecipe():
     #if (request.method == 'POST'):
         getI = request.form['getI']
         #print(getI)
-        getID = recipeMaster.query.filter_by(recipe_name = getRecipeName).first()
-        getID = getID.id
+        
         try:
             while i < int(getI): #getIngredient != '' and request.method == 'POST':
                 getIngredient = request.form['Ingredient' + str(i)]

@@ -2,14 +2,26 @@
 
 {% block content %}
 
-<h2> Search Page</h2>
-
+<h2>Search Page</h2>
+<h4>Recipies: </h4>
 {% for result in results %}
 <div class="card">
     <div class="card-body">
         <a id="search" href={{ url_for("views.recipeBase", id=result.id) }}>
             <tr>
             <td>{{ result.recipe_name }}</td>
+            </tr>
+        </a>
+    </div>
+</div>
+{% endfor %}
+<h4>Tags: </h4>
+{% for tagResult in tagResults %}
+<div class="card">
+    <div class="card-body">
+        <a id="search" href={{ url_for("views.recipeBase", id=tagResult.recipe_id) }}>
+            <tr>
+            <td>{{ tagResult.recipe_name }}</td>
             </tr>
         </a>
     </div>
