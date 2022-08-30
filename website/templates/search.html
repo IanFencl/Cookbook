@@ -19,9 +19,9 @@
 {% for tagResult in tagResults %}
 <div class="card">
     <div class="card-body">
-        <a id="search" href={{ url_for("views.recipeBase", id=tagResult.recipe_id) }}>
+        <a id="search" href={{ url_for("views.recipeBase", id=getRecipeID.id) }}>
             <tr>
-            <td>{{ tagResult.recipe_name }}</td>
+            <td>{{ getRecipeID.recipe_name }}</td>
             </tr>
         </a>
     </div>

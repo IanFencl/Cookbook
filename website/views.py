@@ -22,9 +22,15 @@ def search():
         print(search)
         results = recipeMaster.query.filter(recipeMaster.recipe_name.like(search)).all()
         tagResults = Tags.query.filter(Tags.tag_name.like(search)).all()
-        print("tag results " + len(tagResults))
+        print("tag results " + str(len(tagResults)))
         #query to set results equal to recipe_id and get that stuff
-        return render_template('search.html', results=results, tagResults = tagResults)
+        i = 0
+        getRecipeID = 0
+        while i < len(tagResults):
+            id = tagResults[i].recipe_id
+            getRecipeID = recipeMaster.query.filter(recipeMaster.id == id).first()
+            i+=1
+        return render_template('search.html', results=results, tagResults = tagResults, getRecipeID = getRecipeID)
         
 
 @views.route('/login', methods = ['POST', 'GET'])
@@ -105,7 +111,6 @@ def addRecipe():
         db.session.add(data)
         getTags = request.form.get('tags')
         getTags = getTags.split(',')
-        print(getTags[1])
         print(len(getTags))
         i = 0
         getID = recipeMaster.query.filter_by(recipe_name = getRecipeName).first()
