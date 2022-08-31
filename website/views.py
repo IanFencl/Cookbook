@@ -15,21 +15,19 @@ def home():
 def search():
     if request.method == 'POST':
         form = request.form
-        print(form)
         search_value = form['search_string']
-        print(search_value)
         search = '%{0}%'.format(search_value)
-        print(search)
         results = recipeMaster.query.filter(recipeMaster.recipe_name.like(search)).all()
         tagResults = Tags.query.filter(Tags.tag_name.like(search)).all()
-        print("tag results " + str(len(tagResults)))
         #query to set results equal to recipe_id and get that stuff
         i = 0
         getRecipeID = 0
+
         while i < len(tagResults):
             id = tagResults[i].recipe_id
             getRecipeID = recipeMaster.query.filter(recipeMaster.id == id).first()
             i+=1
+
         return render_template('search.html', results=results, tagResults = tagResults, getRecipeID = getRecipeID)
         
 
@@ -72,37 +70,25 @@ def recipeBase(id=None):
     getID = request.path
     pages = re.search(r'(?<=/recipe_base/)\w+', getID)
     page = pages.group(0)
-    
-    #print(page)
     names = recipeMaster.query.filter_by(id = page).first()
-    
-    #notes = customNotes.note
-    #print(names)
-    #recipeMaster.query.all()
-    #name = names(page)
     ings = Ingredients.query.filter_by(recipe_id = page).all()
 
     if current_user.is_authenticated:
         userID = current_user.id
         if request.method == 'POST':
             getNotes = request.form.get('customNote')
-        #print(page, getNotes)
-            data = Notes(recipe_id = page, note = getNotes)
+            data = Notes(recipe_id = page, creator_id = userID, note = getNotes)
             db.session.add(data)
             db.session.commit()
         customNotes = Notes.query.filter_by(recipe_id = page, creator_id = userID).all()
-        return render_template('recipe_base.html', ings=ings, names=names, notes = customNotes)
-    else:
-        return render_template('recipe_base.html', ings=ings, names=names)
+
+    return render_template('recipe_base.html', ings=ings, names=names, notes= customNotes)
 
 @views.route('/add_recipe', methods=['GET', 'POST'])
 @login_required
 def addRecipe():
     data = request.form
     createdBy = current_user.username
-    
-    #data = data.to_dict(flat=False)
-    #print(data)
 
     if request.method == 'POST':        
         getRecipeName = request.form.get('recipeName')
@@ -115,19 +101,16 @@ def addRecipe():
         i = 0
         getID = recipeMaster.query.filter_by(recipe_name = getRecipeName).first()
         getID = getID.id
+
         while i < len(getTags):
-            db.session.add(Tags(recipe_id = getID, tag_name = getTags[i]))
+            db.session.add(Tags(recipe_id = getID, tag_name = getTags[i].replace(" ", "")))
             i+=1
-        #db.session.commit()
-    
-    #getIngredient = 'start'
+
         i = 0
-    #if (request.method == 'POST'):
         getI = request.form['getI']
-        #print(getI)
         
         try:
-            while i < int(getI): #getIngredient != '' and request.method == 'POST':
+            while i < int(getI):
                 getIngredient = request.form['Ingredient' + str(i)]
                 getAmount = request.form['Amount' + str(i)]
                 getUnit = request.form['Unit' + str(i)]
@@ -136,9 +119,11 @@ def addRecipe():
                 db.session.commit()
                 print(getIngredient, getAmount, getUnit)
                 i+=1
+
         except KeyError:
             print("key error")
         
         finally:
             print("done")
+            
     return render_template("add_recipe.html")
