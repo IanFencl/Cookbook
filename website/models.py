@@ -34,7 +34,6 @@ class Notes(db.Model):
 
 class UserModel(UserMixin, db.Model):
     __tablename__ = 'users'
- 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(80), unique=True)
     username = db.Column(db.String(100))

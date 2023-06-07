@@ -72,6 +72,7 @@ def recipeBase(id=None):
     page = pages.group(0)
     names = recipeMaster.query.filter_by(id = page).first()
     ings = Ingredients.query.filter_by(recipe_id = page).all()
+    customNotes = ""
 
     if current_user.is_authenticated:
         userID = current_user.id
@@ -127,3 +128,17 @@ def addRecipe():
             print("done")
             
     return render_template("add_recipe.html")
+
+
+
+
+
+    '''table for steps that has fk of recipe_id
+button to add next step and remove
+
+Logo on mobile
+
+have log in/register disappear if logged in
+
+delete personal notes'''
+

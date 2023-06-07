@@ -14,10 +14,14 @@
 <p> {{ names.steps }}</p>
 <br>
 <p>
+  <form>
 {% for note in notes %}
   {{ note.note }}
+  <button type="submit" class="btn btn-danger" id="deleteNote" href="#">Delete Note</button>
   <br>
+
 {% endfor %}
+</form>
 </p>
 
 <div id="noteField">
